@@ -36,23 +36,12 @@
 	recompiled with the T3X/86 compiler.
 
 
-	FED HIGHLIGHT SYNTAX
-	====================
-
-	Replace FED.SYN file of Folding Text Editor with 
-	EXTRA\FED.SYN.
-	
-	Tested on: FreeDOS/Win3.1, Ubuntu Linux, Windows 10(32bit)
-
-
 	INSTALLING THE T3X/86 COMPILER
-	==============================
 
 	Copy the contents of BIN folder to destination.
 
 
 	COMPILING THE COMPILER
-	======================
 
 	This step requires the T3X/86 source code. If you downloaded a
 	binary package, fetch it at the T3X homepage (see top of file).
@@ -86,10 +75,9 @@
 
 
 	RE-BUILDING THE COMPILER UNDER DOS
-	==================================
 
 	The easiest way is to just extract the archive and run the
-	MAKE.BAT file.
+	BUILD.BAT file.
 
 	To compile T3X/86 manually, you need the following files on your
 	DOS machine:
@@ -136,7 +124,6 @@
 
 
 	TESTING THE COMPILER
-	====================
 
 	There is a simple test suite in the file TEST.T. To test the
 	compiler, compile and run that file. (Do not forget to convert
@@ -147,7 +134,6 @@
 
 
 	TRIPLE-TESTING THE COMPILER
-	===========================
 
 	In order to triple-test the compiler, first install it on a DOS
 	machine or emulator. If you did not generate the file T.T on DOS,
@@ -167,7 +153,6 @@
 
 
 	USAGE
-	=====
 
 	T FILE     will compile FILE.T to FILE.COM.
 
@@ -176,7 +161,6 @@
 
 
 	GETTING STARTED
-	===============
 
 	The file T3X.TXT contains a very brief introduction to the T3X9
 	language. There are some example programs and utilities in this
@@ -186,7 +170,6 @@
 
 
 	THE T3X/86 LANGUAGE AND COMPILER
-	================================
 
 	The T3X/86 compiler is derived from the T3X9 compiler, but
 	implements a larger subset of the full T3X language. However,
@@ -203,9 +186,12 @@
 	the T3X home page or, for a more scenic view, have a look at
 	the T3X book: t3x.org/t3x/t3x.html
 
+	FED HIGHLIGHT SYNTAX
+
+	Replace FED.SYN file of Folding Text Editor with 
+	EXTRAS\FED.SYN.
 
 	LOW LEVEL EXTENSIONS
-	====================
 
 	* t.int86ax(int,ax,bx,cx,dx,si,di)
 	    Call 8088 interrupt returning AX
@@ -240,11 +226,12 @@
 	    Create far function
 	* example_int(ax,bx,cx,dx,ds,si,es,si,ss,sp) farint do end
 	    Create interrupt handler with direct manipulation of 
-	    returning registers.
+	    returning registers and CF.
 	    Example: 
 		my_int(ax,bx,cx,dx,ds,si,es,si,ss,sp) farint do
 		    ax := 123;
 		    cx := ax * 2;
+		    return 1; ! Return CF = 1
 		end
 
 		do var old79, old79seg, ret;

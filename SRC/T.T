@@ -1833,7 +1833,8 @@ init(p) do var i, b::10;
 		[ CG_DELFRAME,  "5d"            ], ! pop bp
 		[ CG_RET,       "c3"            ], ! ret
 		[ CG_RETF,      "cb"            ], ! retf
-		[ CG_IRET,      "cf"            ], ! iret
+		[ CG_IRET,      "83f8007403f9eb01f8cf"], ! cmp ax,0;jz +3;stc
+						   ! jmps +1;clc;iret
 		[ CG_HALT,      "b8004ccd21"    ], ! mov ax,4c00h; int 21H
 		[ CG_NEG,       "f7d8"          ], ! neg ax
 		[ CG_INV,       "f7d0"          ], ! not ax

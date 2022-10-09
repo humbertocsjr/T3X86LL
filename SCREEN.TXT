@@ -1,0 +1,14 @@
+Screenshot info.......:
+Author................: Humberto Costa dos Santos Junior
+Date..................: 2022-10-09 14:52 GMT-3
+Machine...............: IBM ThinkPad A20m
+RAM...................: 256 MiB
+Storage...............: Floppy, CD-ROM, 20 GiB IDE Hard Disk
+Network...............: TCP/IP via MTCP over Orinoco Gold Wireless 11b PCMCIA
+Operating System......: Windows for Workgroups 3.11 on MS-DOS 6.22
+Softwares on screen...: FED (T3X Source Code), Notepad (T3X Readme), WinFile
+Installed softwares...: T3X/86 Compiler Suite, FED, MS-DOS, Windows, MTCP, Links, 
+                        Trumpet Winsock, IE 3.0, HGopher, Watcom C, Word 6, NASM,
+                        Old-School Assembler, OakCDROM Driver, Lynx
+Software Localization.: Brazilian Portuguese
+Screenshot software...: Windows Print Screen + Paintbrush
