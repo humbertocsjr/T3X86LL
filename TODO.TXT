@@ -1,0 +1,7 @@
+
+	The language is pretty much fixed right now.
+
+	Maybe:
+
+	Add unsigned operators (./ .< .> .<= .>=).
+
