@@ -18,7 +18,7 @@
 	T3X/86 is a single-stage two-pass compiler for a superset of
 	version 9 of the T3X programming language (T3X9). It cross-
 	compiles in 0.1s on modern hardware and self-compiles in about
-	20 seconds on an emulated 50MHz PC/XT. it is packaged in a
+	35 seconds on an emulated 50MHz PC/XT. it is packaged in a
 	single 29KB COM file and needs no additional programs or
 	libraries. It compiles directly from T3X to 8086 machine code
 	and should work on any x86-based DOS machine. Of course
@@ -27,8 +27,8 @@
 
 	The source code of T3X/86 is based on T3X9, but makes some
 	improvements, like better T3X compatibility and slightly more
-	efficient code generation. It consists of ~1750 lines of T3X
-	plus ~450 lines of 8086 assembly language for the runtime
+	efficient code generation. It consists of ~1906 lines of T3X
+	plus ~890 lines of 8086 assembly language for the runtime
 	library. It triple-tests successfully.
 
 	A simple 8086 assembler for compiling the runtime library is
