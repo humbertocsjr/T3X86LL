@@ -1833,8 +1833,7 @@ init(p) do var i, b::10;
 		[ CG_DELFRAME,  "5d"            ], ! pop bp
 		[ CG_RET,       "c3"            ], ! ret
 		[ CG_RETF,      "cb"            ], ! retf
-		[ CG_IRET,      "83f8007403f9eb01f8cf"], ! cmp ax,0;jz +3;stc
-						   ! jmps +1;clc;iret
+		[ CG_IRET,      "cf"            ], ! iret
 		[ CG_HALT,      "b8004ccd21"    ], ! mov ax,4c00h; int 21H
 		[ CG_NEG,       "f7d8"          ], ! neg ax
 		[ CG_INV,       "f7d0"          ], ! not ax
@@ -1875,7 +1874,12 @@ init(p) do var i, b::10;
 						   ! push ax,bx,cx,dx,ds,si,es
 						   ! push di,ss;mov ax,sp;
 						   ! inc ax;inc ax;push ax
-		[ CG_POPA,"5b58fa8ed089dcfb5f075e1f5a595b58"],
+		[ CG_POPA,
+"8b5e06539d83f8007403f9eb01f89c5b895e065b58fa8ed089dcfb5f075e1f5a595b58"],
+						   ! mov bx,[bp+6];push bx;popf
+						   ! cmp ax,0;jz +3;stc;jmps+1
+						   ! clc;pushf;pop bx;
+						   ! mov [bp+6],bx
 						   ! pop ax,bx;cli;mov ss,ax
 						   ! mov sp,bx;sti;pop di,es
 						   ! pop si,ds,dx,cx,bx,ax

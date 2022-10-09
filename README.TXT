@@ -19,7 +19,7 @@
 	version 9 of the T3X programming language (T3X9). It cross-
 	compiles in 0.1s on modern hardware and self-compiles in about
 	20 seconds on an emulated 50MHz PC/XT. it is packaged in a
-	single 25KB COM file and needs no additional programs or
+	single 29KB COM file and needs no additional programs or
 	libraries. It compiles directly from T3X to 8086 machine code
 	and should work on any x86-based DOS machine. Of course
 	T3X/86 can be set up as a cross compiler to DOS on any system
