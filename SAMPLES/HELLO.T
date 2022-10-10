@@ -14,7 +14,6 @@ farexample() far do
 end
 
 int79(ax,bx,cx,dx,ds,si,es,di,ss,sp) farint do
-    ! CS,DS,SS,SP is from caller
     ! Return ax = %5
     ax := %5;
     ! Call Video BIOS, writing 'D\r\n' on screen
