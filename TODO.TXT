@@ -3,5 +3,5 @@
 
 	Maybe:
 
-	Add unsigned operators (./ .< .> .<= .>=).
+	Add unsigned operators (.< .> .<= .>=).
 

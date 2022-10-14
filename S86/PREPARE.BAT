@@ -1,2 +1,2 @@
 ..\base\t s86
-move s86.com ..\bin\ >NUL
+ren s86.com ..\bin\s86.com >NUL

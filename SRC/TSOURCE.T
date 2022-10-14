@@ -208,7 +208,7 @@ struct  CG =    CG_NULL,
 		CG_MUL, CG_DIV, CG_MOD, CG_AND, CG_OR, CG_XOR,
 		CG_SHL, CG_SHR, CG_EQ, CG_NE, CG_LT, CG_GT,
 		CG_LE, CG_GE, CG_JMPEQ, CG_JMPNE, CG_JMPLT,
-		CG_JMPGT, CG_JMPLE, CG_JMPGE, CG_PUSHA, CG_POPA;
+		CG_JMPGT, CG_JMPLE, CG_JMPGE, CG_PUSHA, CG_POPA, CG_DIVU;
 
 findlab(id) return Labels[id];
 
@@ -1750,6 +1750,8 @@ init(p) do var i, b::10;
 						   ! pop ax,bx;cli;mov ss,ax
 						   ! mov sp,bx;sti;pop di,es
 						   ! pop si,ds,dx,cx,bx,ax
+		[ CG_DIVU,       "89c15831d2f7f1"], ! mov ax,cx; pop ax
+						   ! xor dx,dx; div cx
 		[ %1,           ""              ] ];
 	Opttbl := [
 		[ CG_EQ,        0,      CG_JMPFALSE,    CG_JMPNE        ],
@@ -1792,6 +1794,7 @@ init(p) do var i, b::10;
 		[ 6, 1, "-",    BINOP,  CG_SUB          ],
 		[ 0, 2, "->",   COND,   0               ],
 		[ 7, 1, "/",    BINOP,  CG_DIV          ],
+		[ 7, 2, "./",   BINOP,  CG_DIVU         ],
 		[ 2, 2, "/\\",  CONJ,   0               ],
 		[ 0, 0, 0,      0,      0               ] ];
 	Equal_op := findop("=");
@@ -1845,6 +1848,7 @@ init(p) do var i, b::10;
 	builtin("t.setptr", 3,  0x0180);
 	builtin("t.getseg", 1,  0x0183);
 	builtin("t.getoff", 1,  0x0186);
+	builtin("t.stack", 0,   0x0189);
 	emitlib();
 end
 
