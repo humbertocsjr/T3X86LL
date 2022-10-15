@@ -63,6 +63,7 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 	jmp 	t_stackptr		; 0x0195
 	jmp 	t_instrptr		; 0x0198
 	jmp 	t_bochsbrk		; 0x019b
+	jmp 	t_farfillw		; 0x019e
 
 
 ; Call frame layout
@@ -525,6 +526,26 @@ t_farfill:
 	cld
 	rep
 	stosb
+	pop     es
+	pop     bp
+	xor     ax,ax
+	ret
+
+; T.FARFILLW(SEG, R, C, N)
+; Fill N words starting at SEG:R with C.
+
+t_farfillw:
+	push    bp
+	mov     bp,sp
+	push    es
+	mov     ax,[bp+10]      ; seg
+	mov     es, ax
+	mov     di,[bp+8]       ; r
+	mov     ax,[bp+6]       ; c
+	mov     cx,[bp+4]       ; n
+	cld
+	rep
+	stosw
 	pop     es
 	pop     bp
 	xor     ax,ax
