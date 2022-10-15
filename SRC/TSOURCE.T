@@ -1849,6 +1849,9 @@ init(p) do var i, b::10;
 	builtin("t.getseg", 1,  0x0183);
 	builtin("t.getoff", 1,  0x0186);
 	builtin("t.stack", 0,   0x0189);
+	builtin("t.getflags", 0,0x018c);
+	builtin("t.setflags", 0,0x018f);
+	builtin("t.jmpstack", 0,0x0192);
 	emitlib();
 end
 

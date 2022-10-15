@@ -56,7 +56,10 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 	jmp     t_setptr        ; 0x0180
 	jmp     t_getseg        ; 0x0183
 	jmp     t_getoff        ; 0x0186
-	jmp     t_stack         ; 0x0186
+	jmp 	t_stack			; 0x0189
+	jmp 	t_getflags		; 0x018c
+	jmp		t_setflags		; 0x018f
+	jmp 	t_jmpstack		; 0x0192
 
 
 ; Call frame layout
@@ -79,6 +82,44 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 t_bpw:
 	mov     ax,2
 	ret
+
+; T.GETFLAGS()
+; Return FLAGS contents
+t_getflags:
+	pushf
+	pop 	ax
+	ret
+
+; T.SETFLAGS(FLAGS)
+; Set FLAGS contents
+t_setflags:
+	push	bp
+	mov 	bp,sp
+	mov		ax,[bp+4]
+	push 	ax
+	popf
+	pop 	bp
+	ret
+
+; T.JMPSTACK(SEG, TOP_STACK, EXEC)
+; Jump far using independent stack and segment
+t_jmpstack:
+	push 	bp
+	mov		bp,sp
+	push	ds
+	push	es
+	mov		ax,[bp+8]
+	mov		bx,[bp+6]
+	mov		cx,[bp+4]
+	cli
+	mov 	ss,ax
+	mov 	ds,ax
+	mov 	es,ax
+	mov		sp,bx
+	push 	ax
+	push	cx
+	sti
+	retf
 
 ; T.SETPTR(PTR, SEG, OFFSET)
 ; Set pointer on PTR[4]
