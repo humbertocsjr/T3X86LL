@@ -1854,6 +1854,7 @@ init(p) do var i, b::10;
 	builtin("t.jmpstack", 3,0x0192);
 	builtin("t.stackptr", 0,0x0195);
 	builtin("t.instrptr", 0,0x0198);
+	builtin("t.bochsbrk", 0,0x019b);
 	emitlib();
 end
 

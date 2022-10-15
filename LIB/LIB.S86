@@ -62,6 +62,7 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 	jmp 	t_jmpstack		; 0x0192
 	jmp 	t_stackptr		; 0x0195
 	jmp 	t_instrptr		; 0x0198
+	jmp 	t_bochsbrk		; 0x019b
 
 
 ; Call frame layout
@@ -83,6 +84,12 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 
 t_bpw:
 	mov     ax,2
+	ret
+
+; T.BOCHSBRK()
+; Magic breakpoint on BOCHS emulator
+t_bochsbrk:
+	xchg 	bx,bx
 	ret
 
 ; T.STACKPTR()
