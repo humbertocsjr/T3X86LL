@@ -1852,6 +1852,8 @@ init(p) do var i, b::10;
 	builtin("t.getflags", 0,0x018c);
 	builtin("t.setflags", 0,0x018f);
 	builtin("t.jmpstack", 0,0x0192);
+	builtin("t.stackptr", 0,0x0195);
+	builtin("t.instrptr", 0,0x0198);
 	emitlib();
 end
 

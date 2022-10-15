@@ -60,6 +60,8 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 	jmp 	t_getflags		; 0x018c
 	jmp		t_setflags		; 0x018f
 	jmp 	t_jmpstack		; 0x0192
+	jmp 	t_stackptr		; 0x0195
+	jmp 	t_instrptr		; 0x0198
 
 
 ; Call frame layout
@@ -81,6 +83,22 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 
 t_bpw:
 	mov     ax,2
+	ret
+
+; T.STACKPTR()
+; Return stack pointer
+
+t_stackptr:
+	mov     ax,sp
+	add 	ax,2
+	ret
+
+; T.INSTRPTR()
+; Return intruction pointer of exit of this function
+
+t_instrptr:
+	pop		ax
+	push	ax
 	ret
 
 ; T.GETFLAGS()
