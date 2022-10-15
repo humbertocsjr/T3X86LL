@@ -395,7 +395,7 @@ notequ: mov     al,[di-1]
 cmpret: pop     bp
 	ret
 
-; T.MEMCOPY(SEGD, DEST, SEGS, SRC, N)
+; T.FARCOPY(SEGD, DEST, SEGS, SRC, N)
 ; Copy N bytes from SEGS:SRC to SEGD:DEST;
 ; regions may overlap.
 
@@ -405,17 +405,15 @@ t_farcopy:
     push    ds
     push    es
     mov     ax,[bp+12]          ; segd
-    mov     ds,ax
-    mov     ax,[bp+10]          ; dest
-    push    ax
-    mov     ax,[bp+8]           ; segs
     mov     es,ax
-    mov     ax,[bp+6]           ; src
-    push    ax
-    mov     ax,[bp+4]           ; n
-    push    ax
-    call    t_memcopy
-    add     sp,6
+    mov     di,[bp+10]          ; dest
+    mov     ax,[bp+8]           ; segs
+    mov     ds,ax
+    mov     si,[bp+6]           ; src
+    mov     cx,[bp+4]           ; n
+	cld
+	rep
+	movsb  
     pop     es
     pop     ds
     pop     bp
