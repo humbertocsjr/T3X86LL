@@ -53,6 +53,7 @@ const   TCODE='T', TNONE='X';
 ! symbols flags
 const   FUNDEFD=1;      ! not yet defined
 
+var 	StdErr;							! Standard Output for errors
 var     Infile;                         ! input file
 var     Outfile;                        ! output file
 var     Symbols[SYMBSPACE], St;         ! symbol table
@@ -206,7 +207,7 @@ end
 
 length(a) return t.memscan(a, 0, 32767);
 
-report(s) t.write(T3X.SYSERR, s, length(s));
+report(s) t.write(StdErr, s, length(s));
 
 reptnl() do var b::3;
 	report(t.newline(b));
@@ -1275,9 +1276,12 @@ pass() do var out;
 	if (Outfile \= T3X.SYSOUT) t.close(Outfile);
 end
 
-do var in::64, out::64, ki, ko;
+do var in::64, out::64, ki, ko, extra::15;
+	StdErr := T3X.SYSERR;
 	ki := t.getarg(1, in, 60);
 	ko := t.getarg(2, out, 60);
+	if(t.getarg(3, extra, 15) > 0)
+		if(t.memcomp("/REDIRERR", extra, 10) = 0) StdErr := T3X.SYSOUT;
 	ie (ki > 0) do
 		if (ko < 1) do
 			if (ki > 8) ki := 8;
