@@ -100,10 +100,10 @@ t_setsegs:
 	cli
 	mov		ss,ax
 	mov		sp,bx
+	mov		bp,cx
 	mov		ds,ax
 	mov 	es,ax
 	sti
-	pop bp
 	ret
 
 ; T.BASEPTR()
