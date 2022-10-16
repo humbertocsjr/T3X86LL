@@ -97,12 +97,15 @@ t_setsegs:
 	mov		ax,[bp+8]
 	mov		bx,[bp+6]
 	mov		cx,[bp+4]
+	pop		bp
+	pop		dx
 	cli
 	mov		ss,ax
 	mov		sp,bx
 	mov		bp,cx
 	mov		ds,ax
 	mov 	es,ax
+	push 	dx
 	sti
 	ret
 
