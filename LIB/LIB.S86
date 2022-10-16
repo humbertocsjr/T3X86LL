@@ -65,6 +65,7 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 	jmp 	t_bochsbrk		; 0x019b
 	jmp 	t_farfillw		; 0x019e
 	jmp 	t_setsegs		; 0x01a1
+	jmp 	t_baseptr		; 0x01a4
 
 
 ; Call frame layout
@@ -88,13 +89,14 @@ t_bpw:
 	mov     ax,2
 	ret
 
-; T.SETSEGS(SEG, STACK_PTR)
-; Set DS, ES, SS contents
+; T.SETSEGS(SEG, STACK_PTR, BASE_PTR)
+; Set DS, ES, SS, SP, BP contents
 t_setsegs:
 	push	bp
 	mov 	bp,sp
-	mov		ax,[bp+6]
-	mov		bx,[bp+4]
+	mov		ax,[bp+8]
+	mov		bx,[bp+6]
+	mov		cx,[bp+4]
 	cli
 	mov		ss,ax
 	mov		sp,bx
@@ -102,6 +104,12 @@ t_setsegs:
 	mov 	es,ax
 	sti
 	pop bp
+	ret
+
+; T.BASEPTR()
+; Get base pointer
+t_baseptr:
+	mov		ax,bp
 	ret
 
 ; T.BOCHSBRK()
