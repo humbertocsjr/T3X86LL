@@ -1856,6 +1856,7 @@ init(p) do var i, b::10;
 	builtin("t.instrptr", 0,0x0198);
 	builtin("t.bochsbrk", 0,0x019b);
 	builtin("t.farfillw", 4,0x019e);
+	builtin("t.setsegs",  2,0x01a1);
 	emitlib();
 end
 

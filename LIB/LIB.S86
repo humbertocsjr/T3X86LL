@@ -64,6 +64,7 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 	jmp 	t_instrptr		; 0x0198
 	jmp 	t_bochsbrk		; 0x019b
 	jmp 	t_farfillw		; 0x019e
+	jmp 	t_setsegs		; 0x01a1
 
 
 ; Call frame layout
@@ -85,6 +86,22 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 
 t_bpw:
 	mov     ax,2
+	ret
+
+; T.SETSEGS(SEG, STACK_PTR)
+; Set DS, ES, SS contents
+t_setsegs:
+	push	bp
+	mov 	bp,sp
+	mov		ax,[bp+6]
+	mov		bx,[bp+4]
+	cli
+	mov		ss,ax
+	mov		sp,bx
+	mov		ds,ax
+	mov 	es,ax
+	sti
+	pop bp
 	ret
 
 ; T.BOCHSBRK()
