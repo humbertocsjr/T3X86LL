@@ -1275,9 +1275,9 @@ pass() do var out;
 	if (Outfile \= T3X.SYSOUT) t.close(Outfile);
 end
 
-do var in::14, out::14, ki, ko;
-	ki := t.getarg(1, in, 12);
-	ko := t.getarg(2, out, 12);
+do var in::64, out::64, ki, ko;
+	ki := t.getarg(1, in, 60);
+	ko := t.getarg(2, out, 60);
 	ie (ki > 0) do
 		if (ko < 1) do
 			if (ki > 8) ki := 8;
