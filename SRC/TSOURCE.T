@@ -1851,7 +1851,7 @@ init(p) do var i, b::10;
 	builtin("t.stack", 0,   0x0189);
 	builtin("t.getflags", 0,0x018c);
 	builtin("t.setflags", 1,0x018f);
-	builtin("t.jmpstack", 3,0x0192);
+	builtin("t.jmpstack", 5,0x0192);
 	builtin("t.stackptr", 0,0x0195);
 	builtin("t.instrptr", 0,0x0198);
 	builtin("t.bochsbrk", 0,0x019b);

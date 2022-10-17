@@ -155,22 +155,25 @@ t_setflags:
 	pop 	bp
 	ret
 
-; T.JMPSTACK(SEG, TOP_STACK, EXEC)
+; T.JMPSTACK(SEG, TOP_STACK, BASE_PTR, CSEG, EXEC)
 ; Jump far using independent stack and segment
 t_jmpstack:
 	push 	bp
 	mov		bp,sp
 	push	ds
 	push	es
-	mov		ax,[bp+8]
-	mov		bx,[bp+6]
+	mov		ax,[bp+12]
+	mov		bx,[bp+10]
+	mov		dx,[bp+8]
+	mov		si,[bp+6]
 	mov		cx,[bp+4]
 	cli
 	mov 	ss,ax
 	mov 	ds,ax
 	mov 	es,ax
 	mov		sp,bx
-	push 	ax
+	mov		bp,dx
+	push 	si
 	push	cx
 	sti
 	retf
