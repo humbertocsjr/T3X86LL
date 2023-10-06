@@ -1,3 +1,3 @@
-..\bin\t test
-..\bin\t fib
-..\bin\t hello
+..\bin\t test /V
+..\bin\t fib /V
+..\bin\t hello /V

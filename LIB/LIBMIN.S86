@@ -37,36 +37,11 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 	jmp     cmp_ugt         ; 0x0147
 	jmp     cmp_ule         ; 0x014a
 	jmp     cmp_uge         ; 0x014d
-	jmp     t_farcomp       ; 0x0150
-	jmp     t_farcopy       ; 0x0153
-	jmp     t_farfill       ; 0x0156
-	jmp     t_farscan       ; 0x0159
-	jmp     t_fargetb       ; 0x015c
-	jmp     t_farsetb       ; 0x015f
-	jmp     t_fargetw       ; 0x0162
-	jmp     t_farsetw       ; 0x0165
-	jmp     t_local         ; 0x0168
-	jmp     t_outb          ; 0x016b
-	jmp     t_inb           ; 0x016e
-	jmp     t_outw          ; 0x0171
-	jmp     t_inw           ; 0x0174
-	jmp     t_int86c        ; 0x0177
-	jmp     t_int86ax       ; 0x017a
-	jmp     t_int86z        ; 0x017d
-	jmp     t_setptr        ; 0x0180
-	jmp     t_getseg        ; 0x0183
-	jmp     t_getoff        ; 0x0186
-	jmp 	t_stack			; 0x0189
-	jmp 	t_getflags		; 0x018c
-	jmp		t_setflags		; 0x018f
-	jmp 	t_jmpstack		; 0x0192
-	jmp 	t_stackptr		; 0x0195
-	jmp 	t_instrptr		; 0x0198
-	jmp 	t_bochsbrk		; 0x019b
-	jmp 	t_farfillw		; 0x019e
-	jmp 	t_setsegs		; 0x01a1
-	jmp 	t_baseptr		; 0x01a4
-	jmp 	t_int86			; 0x01a7
+	jmp     t_local         ; 0x0150
+	jmp 	t_int86c		; 0x0153
+	jmp 	t_int86ax		; 0x0156
+	jmp 	t_int86z		; 0x0159
+	jmp 	t_int86			; 0x015c
 
 
 ; Call frame layout
@@ -89,132 +64,6 @@ rtlen:  dw      offset end      ; 0x0103 module length for mklib.t
 t_bpw:
 	mov     ax,2
 	ret
-
-; T.SETSEGS(SEG, STACK_PTR, BASE_PTR)
-; Set DS, ES, SS, SP, BP contents
-t_setsegs:
-	push	bp
-	mov 	bp,sp
-	mov		ax,[bp+8]
-	mov		bx,[bp+6]
-	mov		cx,[bp+4]
-	pop		bp
-	pop		dx
-	cli
-	mov		ss,ax
-	mov		sp,bx
-	mov		bp,cx
-	mov		ds,ax
-	mov 	es,ax
-	push 	dx
-	sti
-	ret
-
-; T.BASEPTR()
-; Get base pointer
-t_baseptr:
-	mov		ax,bp
-	ret
-
-; T.BOCHSBRK()
-; Magic breakpoint on BOCHS emulator
-t_bochsbrk:
-	xchg 	bx,bx
-	ret
-
-; T.STACKPTR()
-; Return stack pointer
-
-t_stackptr:
-	mov     ax,sp
-	add 	ax,2
-	ret
-
-; T.INSTRPTR()
-; Return intruction pointer of exit of this function
-
-t_instrptr:
-	pop		ax
-	push	ax
-	ret
-
-; T.GETFLAGS()
-; Return FLAGS contents
-t_getflags:
-	pushf
-	pop 	ax
-	ret
-
-; T.SETFLAGS(FLAGS)
-; Set FLAGS contents
-t_setflags:
-	push	bp
-	mov 	bp,sp
-	mov		ax,[bp+4]
-	push 	ax
-	popf
-	pop 	bp
-	ret
-
-; T.JMPSTACK(SEG, TOP_STACK, BASE_PTR, CSEG, EXEC)
-; Jump far using independent stack and segment
-t_jmpstack:
-	push 	bp
-	mov		bp,sp
-	push	ds
-	push	es
-	mov		ax,[bp+12]
-	mov		bx,[bp+10]
-	mov		dx,[bp+8]
-	mov		si,[bp+6]
-	mov		cx,[bp+4]
-	cli
-	mov 	ss,ax
-	mov 	ds,ax
-	mov 	es,ax
-	mov		sp,bx
-	mov		bp,dx
-	push 	si
-	push	cx
-	sti
-	retf
-
-; T.SETPTR(PTR, SEG, OFFSET)
-; Set pointer on PTR[4]
-
-t_setptr:
-    push    bp
-    mov     bp,sp
-    mov     si,[bp+8]
-    mov     ax,[bp+4]
-    mov     [si],ax
-    mov     ax,[bp+6]
-    mov     [si+2],ax
-    xor     ax,ax
-    pop     bp
-    ret
-
-; T.GETSEG(PTR)
-; Get segment from PTR[4]
-
-t_getseg:
-    push    bp
-    mov     bp,sp
-    mov     si,[bp+4]
-    mov     ax,[si+2]
-    pop     bp
-    ret
-
-; T.GETOFF(PTR)
-; Get offset from PTR[4]
-
-t_getoff:
-    push    bp
-    mov     bp,sp
-    mov     si,[bp+4]
-    mov     ax,[si]
-    pop     bp
-    ret
 
 ; T.INT86C(INT, AX, BX, CX, DX, SI, DI)
 ; Call interrupt and return CF
@@ -373,130 +222,11 @@ int86end:
     pop     bp
     ret
 
-; T.OUTB(PORT, VALUE)
-; Write VALUE in PORT
-
-t_outb:
-    push    bp
-    mov     bp,sp
-    mov     dx,[bp+6]
-    mov     al,[bp+4]
-    outb 
-    pop     bp
-    ret
-
-; T.INB(PORT)
-; Return value from PORT
-
-t_inb:
-    push    bp
-    mov     bp,sp
-    mov     dx,[bp+4]
-    xor     ax,ax
-    inb
-    pop     bp
-    ret
-
-; T.OUTW(PORT, VALUE)
-; Write VALUE in PORT
-
-t_outw:
-    push    bp
-    mov     bp,sp
-    mov     dx,[bp+6]
-    mov     ax,[bp+4]
-    outw
-    pop     bp
-    ret
-
-; T.INW(PORT)
-; Return value from PORT
-
-t_inw:
-    push    bp
-    mov     bp,sp
-    mov     dx,[bp+4]
-    inw
-    pop     bp
-    ret
-
-; T.FARGETB(SEG, P)
-; Return byte in SEG:P position
-
-t_fargetb:
-    push    bp
-    mov     bp,sp
-    push    ds
-    mov     ax,[bp+6]
-    mov     ds,ax
-    mov     bx,[bp+4]
-    xor     ax,ax
-    mov     al,[bx]
-    pop     ds
-    pop     bp
-    ret
-
-; T.FARSETB(SEG, P, VALUE)
-; Set byte in SEG:P position
-
-t_farsetb:
-    push    bp
-    mov     bp,sp
-    push    ds
-    mov     ax,[bp+8]
-    mov     ds,ax
-    mov     bx,[bp+6]
-    mov     al,[bp+4]
-    mov     [bx],al
-    xor     ax,ax
-    pop     ds
-    pop     bp
-    ret
-
-; T.FARGETW(SEG, P)
-; Return word in SEG:P position
-
-t_fargetw:
-    push    bp
-    mov     bp,sp
-    push    ds
-    mov     ax,[bp+6]
-    mov     ds,ax
-    mov     bx,[bp+4]
-    mov     ax,[bx]
-    pop     ds
-    pop     bp
-    ret
-
-; T.FARSETW(SEG, P, VALUE)
-; Set word in SEG:P position
-
-t_farsetw:
-    push    bp
-    mov     bp,sp
-    push    ds
-    mov     ax,[bp+8]
-    mov     ds,ax
-    mov     bx,[bp+6]
-    mov     ax,[bp+4]
-    mov     [bx],ax
-    xor     ax,ax
-    pop     ds
-    pop     bp
-    ret
-
 ; T.LOCAL()
 ; Return local segment
 
 t_local:
     mov     ax, cs
-    ret
-
-; T.STACK()
-; Return stack segment
-
-t_stack:
-    mov     ax, ss
     ret
 
 ; T.NEWLINE(B)
@@ -516,33 +246,6 @@ t_newline:
 	mov     ax,[bp+4]
 	pop     bp
 	ret
-
-; T.FARCOMP(SEG1, R1, SEG2, R2, N)
-; Compare regions SEG1:R1 and SEG2:R2 of size N,
-; return difference between first differing
-; pair of bytes; return 0 if SEG1:R1=SEG2:R2
-
-t_farcomp:
-    push    bp
-    mov     bp,sp
-    push    ds
-    push    es
-    mov     ax,[bp+12]          ; seg1
-    mov     ds,ax
-    mov     ax,[bp+10]          ; r1
-    push    ax
-    mov     ax,[bp+8]           ; seg2
-    mov     es,ax
-    mov     ax,[bp+6]           ; r2
-    push    ax
-    mov     ax,[bp+4]           ; n
-    push    ax
-    call    t_memcomp
-    add     sp,6
-    pop     es
-    pop     ds
-    pop     bp
-    ret
 
 ; T.MEMCOMP(R1, R2, N)
 ; Compare regions R1 and R2 of size N,
@@ -573,30 +276,6 @@ notequ: mov     al,[di-1]
 cmpret: pop     bp
 	ret
 
-; T.FARCOPY(SEGD, DEST, SEGS, SRC, N)
-; Copy N bytes from SEGS:SRC to SEGD:DEST;
-; regions may overlap.
-
-t_farcopy:
-    push    bp
-    mov     bp,sp
-    push    ds
-    push    es
-    mov     ax,[bp+12]          ; segd
-    mov     es,ax
-    mov     di,[bp+10]          ; dest
-    mov     ax,[bp+8]           ; segs
-    mov     ds,ax
-    mov     si,[bp+6]           ; src
-    mov     cx,[bp+4]           ; n
-	cld
-	rep
-	movsb  
-    pop     es
-    pop     ds
-    pop     bp
-    ret
-
 ; T.MEMCOPY(DEST, SRC, N)
 ; Copy N bytes from SRC to DEST;
 ; regions may overlap.
@@ -622,46 +301,6 @@ endmove:pop     bp
 	xor     ax,ax
 	ret
 
-; T.FARFILL(SEG, R, C, N)
-; Fill N bytes starting at SEG:R with C.
-
-t_farfill:
-	push    bp
-	mov     bp,sp
-	push    es
-	mov     ax,[bp+10]      ; seg
-	mov     es, ax
-	mov     di,[bp+8]       ; r
-	mov     ax,[bp+6]       ; c
-	mov     cx,[bp+4]       ; n
-	cld
-	rep
-	stosb
-	pop     es
-	pop     bp
-	xor     ax,ax
-	ret
-
-; T.FARFILLW(SEG, R, C, N)
-; Fill N words starting at SEG:R with C.
-
-t_farfillw:
-	push    bp
-	mov     bp,sp
-	push    es
-	mov     ax,[bp+10]      ; seg
-	mov     es, ax
-	mov     di,[bp+8]       ; r
-	mov     ax,[bp+6]       ; c
-	mov     cx,[bp+4]       ; n
-	cld
-	rep
-	stosw
-	pop     es
-	pop     bp
-	xor     ax,ax
-	ret
-
 ; T.MEMFILL(R, C, N)
 ; Fill N bytes starting at R with C.
 
@@ -676,35 +315,6 @@ t_memfill:
 	stosb
 	pop     bp
 	xor     ax,ax
-	ret
-
-; T.FARSCAN(SEG, R, C, N)
-; Find first byte C in region SEG:R of size N;
-; return offset of the byte or -1, if C is not in R.
-
-t_farscan:
-	push    bp
-	mov     bp,sp
-	push    ds
-	mov     ax,[bp+10]      ; seg
-	mov     ds, ax
-	mov     di,[bp+8]       ; r
-	mov     dx,di
-	mov     ax,[bp+6]       ; c
-	mov     cx,[bp+4]       ; n
-	inc     cx
-	cld
-	repnz
-	scasb
-	or      cx,cx
-	jz      fnotfnd
-	mov     ax,di
-	sub     ax,dx
-	dec     ax
-	jmps    fscnret
-fnotfnd:mov     ax,-1
-fscnret:pop     ds
-	pop     bp
 	ret
 
 ; T.MEMSCAN(R, C, N)

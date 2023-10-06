@@ -74,7 +74,7 @@ end
 
 stest(s, r, x) do
 	log(s);
-	if (\str_equal(r, x)) do
+	if (not str_equal(r, x)) do
 		Errors := Errors + 1;
 		writes(s);
 		writes(" FAILED, got \q");

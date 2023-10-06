@@ -2,9 +2,7 @@
 ! Nils M Holm, 1998,2000,2002,2021
 ! Public domain / 0BSD license
 
-module s86(t3x);
-
-object  t[t3x];
+use  t3x: t;
 
 const   DEBUG = 0;
 

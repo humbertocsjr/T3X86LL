@@ -1,17 +1,17 @@
 
-		################ ############ ######   ######
-		##            ## ##        ##  ##  ## ##  ##
-		######    ###### #######   ##   ##  ###  ##
-		    ##    ##        ##    ##     ##     ##
-		    ##    ##     #######   ##   ##  ###  ##
-		    ##    ##     ##        ##  ##  ## ##  ##
-		    ########     ############ ######   ######
+		  ################ 
+		  ##            ## 
+		  ######    ###### #     ###  #   #  ### 
+		      ##    ##     #    #   # ##  # #    
+		      ##    ##     #    #   # # # # #  ##
+		      ##    ##     #    ##### #  ## #   #
+		      ########     #### #   # #   #  ###
 
+		------==[ T3X/86 Derivated Language ]==------
 		----==[ A MINIMAL PROCEDURAL LANGUAGE ]==----
-		----------==[ LOW LEVEL EDITION ]==----------
 
 
-	T3X/86 - A T3X compiler for 8086-based computers running DOS
+	A TLang compiler for 8086-based computers running DOS.
 
 	For a summary of the T3X language, see http://t3x.org/t3x/
 
@@ -24,6 +24,8 @@
 	and should work on any x86-based DOS machine. Of course
 	T3X/86 can be set up as a cross compiler to DOS on any system
 	providing a pre-existing T3X implementation.
+
+	This edition is adapted to build with T3X/0 compiler. 
 
 	The source code of T3X/86 is based on T3X9, but makes some
 	improvements, like better T3X compatibility and slightly more

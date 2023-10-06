@@ -2,9 +2,7 @@
 ! Nils M Holm, 2019,2021
 ! Public domain / 0BSD
 
-module dosfile(t3x);
-
-object  t[t3x];
+use t3x:t;
 
 const   BUFLEN = 128;
 

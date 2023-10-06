@@ -1,4 +1,6 @@
 
+use t3x:t;
+
 localexample() do
     ! Call Video BIOS, writing 'B\r\n' on screen
     t.int86c(0x10, 0xe42,0,0,0,0,0);
@@ -50,7 +52,7 @@ do var k, buf::20, old79, old79seg, ptr[T3X.PTRSIZE];
 	! Use Library calls to write on screen
 	t.write(T3X.SYSOUT, "Enter your name: ", 17);
 	k := t.read(T3X.SYSIN, buf, 20);
-	ie (k < 3) do
+	if (k < 3 and k > 0) do
 		t.write(T3X.SYSOUT, "Goodbye!\r\n", 10);
 	end
 	else do
