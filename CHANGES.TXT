@@ -1,3 +1,11 @@
+	2023-10-05 @humbertocsjr
+
+	- Added int86 function with return registers
+	- Added linux/unix build
+	- Added Project files and Project pre-compiler
+	- Added Minimal version of Library
+	- Change this fork name to TLang Compiler
+
 	2022-10-08 @humbertocsjr
 
 	- Added low level functions on library
