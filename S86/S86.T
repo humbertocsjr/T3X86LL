@@ -25,7 +25,7 @@ const   SYMBOL = 20, STRING = 22, MNEMO = 23;
 const   COMMA = 30, COLON = 31, PLUS = 37;
 
 const   K_BYTE = 100, K_DB = 101, K_DW = 102, K_EQU = 103,
-	K_WORD = 104, K_OFFSET = 105, K_TEXT = 106;
+	K_WORD = 104, K_OFFSET = 105, K_TEXT = 106, K_FILL = 107;
 
 struct  MNEMONIC =      ! mnemonic/opcode mapping
 	MNAME,          ! text
@@ -309,6 +309,7 @@ findkw(s) do
 	if (s::0 = 'd' /\ \t.memcomp(s, "dw", 3)) return K_DW;
 	if (s::0 = 'e' /\ \t.memcomp(s, "equ", 4)) return K_EQU;
 	if (s::0 = 'o' /\ \t.memcomp(s, "offset", 7)) return K_OFFSET;
+	if (s::0 = 'f' /\ \t.memcomp(s, "fill", 5)) return K_FILL;
 	if (s::0 = 'w' /\ \t.memcomp(s, "word", 5)) return K_WORD;
 	return 0;
 end
@@ -682,6 +683,55 @@ emitdef(n, w) ie (w)
 	emitword(n);
 else
 	emit(n);
+
+fill() do var v, qty;
+	Token := scan();
+	qty := Ctop;
+	if (Token = K_OFFSET) do
+		qty := 0;
+		Token := scan();
+	end
+	ie (Token = SYMBOL) do
+		ie (    isdigit(Text::0) \/ Text::0 = '-' \/
+			Text::0 = '\''
+		) do
+			qty := qty + xtoi(Text);
+		end
+		else do
+			error("invalid number", Text);
+		end
+	end
+	else do
+		error("value expected", Text);
+		synch();
+		return;
+	end
+	Token := scan();
+	if (Token \= COMMA) do
+		error("comma expected", Text);
+		synch();
+		return;
+	end
+	Token := scan();
+	ie (Token = SYMBOL) do
+		ie (    isdigit(Text::0) \/ Text::0 = '-' \/
+			Text::0 = '\''
+		) do
+			v := xtoi(Text);
+		end
+		else do
+			error("invalid number", Text);
+		end
+	end
+	else do
+		error("value expected", Text);
+		synch();
+		return;
+	end
+	Token := scan();
+	while(Ctop < qty) emit(v);
+	xnl();
+end
 
 defdata() do var w, v, r, i;
 	w := Token = K_DW;
@@ -1232,6 +1282,9 @@ statement() do
 	end
 	ie (Token = K_DB \/ Token = K_DW) do
 		defdata();
+	end
+	else ie (Token = K_FILL) do
+		fill();
 	end
 	else ie (Token = K_EQU) do
 		defequ();
